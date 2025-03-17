@@ -77,9 +77,8 @@ YYYY-MM-DD: 네트워크 동기화 샘플 코드 업로드
 
 📬 문의
 질문 및 제안 사항은 Issues 또는 Discussions를 이용해주세요.
-이메일 문의: your.email@example.com
-GitHub 프로필: YourGitHubUsername
-
+이메일 문의: 178suna@gmail.com
+GitHub 프로필: todays-sun-day
 ---
 
 🚀 Happy Coding! 🎮
