@@ -107,6 +107,7 @@ namespace ArraySample
                         playerY == goalY)
                     {
                         Console.WriteLine("!! Game Clear !!");
+                        break;
                     }
                 }
             }
