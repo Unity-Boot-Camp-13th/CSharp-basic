@@ -1,4 +1,6 @@
-﻿namespace ArraySample
+﻿using System;
+
+namespace ArraySample
 {
     internal class Program
     {
@@ -27,6 +29,7 @@
                 Console.Write($"{arr[i]}, ");
             }
             Console.WriteLine();
+
             // Array 클래스
             // 배열관련 편의 기능들이 있음
             Array.Sort(arr);
@@ -64,6 +67,7 @@
             // 2 : 도착지점
             // 3 : 플레이어
 
+
             int[,] map = new int[6, 5] // 0차원이 y축, 1차원이 x축
             {
                 { 0, 0, 0, 0, 1},
@@ -74,7 +78,7 @@
                 { 1, 1, 0, 0, 2},
             };
             // 위의 경우가 가독성이 떨어진다고 판단될 때
-            MapNode[,] map2 = new MapNode[6, 5]
+            /* MapNode[,] map2 = new MapNode[6, 5]
             {
                 {MapNode.Path, MapNode.Path, MapNode.Path, MapNode.Path, MapNode.Wall },
                 {MapNode.Path, MapNode.Wall, MapNode.Wall, MapNode.Wall, MapNode.Wall },
@@ -82,10 +86,121 @@
                 {MapNode.Wall, MapNode.Wall, MapNode.Path, MapNode.Wall, MapNode.Wall },
                 {MapNode.Wall, MapNode.Wall, MapNode.Path, MapNode.Wall, MapNode.Wall },
                 {MapNode.Wall, MapNode.Wall, MapNode.Path, MapNode.Path, MapNode.Goal },
-            };
+            }; */
 
+            int playerX = 0;
+            int playerY = 0;
+            int goalX = 4;
+            int goalY = 5;
+
+            map[playerY, playerX] = 3;
+            DisplayMap(map);
+
+            while (true)
+            {
+                ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+
+                if (TryMovePlayerPosition(map, ref playerX, ref playerY, consoleKeyInfo.Key))
+                {
+                    DisplayMap(map);
+                    if (playerX == goalX &&
+                        playerY == goalY)
+                    {
+                        Console.WriteLine("!! Game Clear !!");
+                    }
+                }
+            }
         }
 
+        static bool TryMovePlayerPosition(int[,] map, ref int playerX, ref int playerY, ConsoleKey consoleKey)
+        {
+            int targetX = playerX;
+            int targetY = playerY;
+
+            switch (consoleKey)
+            {
+                case ConsoleKey.UpArrow:
+                    targetY -= 1;
+                    break;
+                case ConsoleKey.DownArrow:
+                    targetY += 1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    targetX += 1;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    targetX -= 1;
+                    break;
+                default:
+                    break;
+            }
+
+            // 이동대상 위치가 맵의 경계를 벗어나는지
+            if (targetY < 0)
+                return false;
+            if (targetY >= map.GetLength(0))
+                return false;
+            if (targetX < 0)
+                return false;
+            if (targetX >= map.GetLength(1))
+                return false;
+
+            // 이동 불가능한 타일인지 확인 (벽인지)
+            if (map[targetY, targetX] == 1)
+                return false;
+
+            map[playerY, playerX] = 0;
+            playerX = targetX;
+            playerY = targetY;
+            map[playerY, playerX] = 3;
+            return true;
+        }
+
+        static void DisplayMap(int[,] map)
+        {
+            Console.Clear();
+
+            // y 축 순회
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                // x 축 순회
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    /* if (map[i, j] == 0)
+                        Console.Write("□ ");
+                    else if (map[i, j] == 1)
+                        Console.Write("■ ");
+                    else if (map[i, j] == 2)
+                        Console.Write("♬ ");
+                    else if (map[i, j] == 3)
+                        Console.Write("♀ ");
+                    else
+                        throw new Exception("잘못된 값입니다..."); */
+
+                    switch (map[i, j])
+                    {
+                        case 0:
+                            Console.Write("□ ");
+                            break;
+                        case 1:
+                            Console.Write("■ ");
+                            break;
+                        case 2:
+                            Console.Write("♬ ");
+                            break;
+                        case 3:
+                            Console.Write("♀ ");
+                                break;
+                        default:
+                            throw new Exception("잘못된 값입니다...");
+                    }
+                }
+
+                Console.WriteLine();
+            }
+
+
+        }
         enum MapNode
         {
             None,
@@ -94,9 +209,6 @@
             Goal,
             User
         }
-
-
-
 
 
     }
