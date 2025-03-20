@@ -57,6 +57,23 @@ namespace ArraySample
                 Console.Write($"{arr2[i]}, ");
             }
 
+            // Jagged Array
+            //---------------------------------------------------
+            int[][] entries = new int[3][];
+
+            entries[0] = new int[2];
+            entries[1] = new int[4];
+            entries[2] = new int[3];
+
+            for (int i = 0; i < entries.Length; i++)
+            {
+                for (int j = 0; j < entries[i].Length; j++)
+                {
+                    Console.Write(entries[i][j]);
+                }
+                Console.WriteLine();
+            }
+
             // 2차원 배열
             // 다차원 배열이라고 해서 힙메모리 영역에 다차원으로 할당하는 것이 아니고,
             // 연속적인 데이터로 할당한 다음, 차원별 인덱서를 통해 알맞는 위치에 접근하는 방식
