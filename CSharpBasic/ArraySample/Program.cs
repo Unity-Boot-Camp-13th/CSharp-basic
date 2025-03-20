@@ -176,7 +176,6 @@ namespace ArraySample
 
         static void DisplayMap(int[,] map)
         {
-            Console.Clear();
 
             // y 축 순회
             for (int i = 0; i < map.GetLength(0); i++)

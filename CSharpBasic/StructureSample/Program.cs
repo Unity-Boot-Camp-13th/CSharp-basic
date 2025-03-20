@@ -1,4 +1,6 @@
-﻿namespace StructureSample
+﻿using System.Xml;
+
+namespace StructureSample
 {
     internal class Program
     {
@@ -22,6 +24,27 @@
             }
 
             Console.WriteLine($"{Vector3.Distance(target1Position, target2Position)}");
+
+            // -------------------------------
+            Console.Clear();
+            Console.WriteLine("PreSet Color : White, Black, Blue, Red, Green");
+
         }
+
+         Color SelectColor()
+        {
+            string color1 = Console.ReadLine();
+            string color2 = Console.ReadLine();
+
+            switch (color1)
+            {
+                case "white":
+                    color1 = Color.White;
+                    break;
+            }
+            
+        }
+
+
     }
 }
