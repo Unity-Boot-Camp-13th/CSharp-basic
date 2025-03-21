@@ -27,62 +27,17 @@ namespace StructureSample
 
             // -------------------------------
             Console.Clear();
-            Console.WriteLine("PreSet Color : White, Black, Blue, Red, Green \n" +
-                              "Operator : +, -");
-            Console.WriteLine("예 : White(enter key), +(enter key), Black");
+            Console.WriteLine("PreSet Color : White, Black, Blue, Red, Green");
+
+            string RGBA1 = Console.ReadLine();
+            string RGBA2 = Console.ReadLine();
                                 
         }
 
-        // 색상 선택하기
-        Color SelectColor()
-        {
-            string color1 = Console.ReadLine();
-            string op = Console.ReadLine();
-            string color2 = Console.ReadLine();
+        
 
-            // null 값 방지
-            if (color1 == null)
-            {
-                Console.WriteLine("색상을 입력해 주세요.");
-            }
-            else if (color2 == null)
-            {
-                Console.WriteLine("색상을 입력해 주세요.");
-            }
-
-
-            // 입력한 색상 반환 (일단 흰색, 검정색만)
-            if (color1 == "White")
-            {
-                return Color.White;
-            }
-            else if (color2 == "White")
-            {
-                return Color.White;
-            }
-            if (color1 == "Black")
-            {
-                return Color.Black;
-            }
-            else if (color2 == "Black")
-            {
-                return Color.Black;
-            }
-
-
-            // 입력한 연산자 반환 (더하기, 빼기)
-            if (op == "+")
-            {
-                return color1 + color2;
-
-            }
-            else if(op == "-")
-            {
-                return color1 - color2;
-            }
-
-
-        }
+        
+        
 
 
     }

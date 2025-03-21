@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Security;
 
 namespace StructureSample
 {
@@ -15,7 +16,7 @@ namespace StructureSample
     /// Color 끼리 더하기 연산자, Color 끼리 빼기 연산자
     /// 색상 프리셋 제공 (흰색, 검은색, 파란색, 빨간색, 녹색)
     /// </summary>
-    struct Color
+    public struct RGBA
     {
         // public 프로퍼티는 PascalCase
         // private 변수이름 _camelCase
@@ -36,38 +37,42 @@ namespace StructureSample
 
         float _r, _g, _b, _a;
 
+        // 색상값 0~1f로 조정하는 옵션
+        private static bool useNormalizedScale;
+
         // 최소값, 최대값 설정
         public static float Min = 0f;
         public static float Max = 255f;
 
         // 생성자
-        public Color(float R, float G, float B, float A)
+        // RGBA 초기값, 범위 조정 옵션 끔
+        public RGBA(float R, float G, float B, float A)
         {
-            _r = R;
-            _g = G;
-            _b = B;
-            _a = A;
+            useNormalizedScale = false;
+            _r = Ranged(R);
+            _g = Ranged(G);
+            _b = Ranged(B);
+            _a = Ranged(A);
+        }
 
-            if (_r < Min)
-            { _r = Min; }
-            else if (_r > Max)
-            { _r = Max; }
+        public RGBA(float R, float G, float B, float A, bool useNormalizedScale)
+        {
+            RGBA.useNormalizedScale = useNormalizedScale;
 
-            else if (_g < Min)
-            { _g = Min; }
-            else if (_g > Max)
-            { _g = Max; }
-
-            else if (_b < Min)
-            { _b = Min; }
-            else if (_b > Max)
-            { _b = Max; }
-
-            else if (_a < Min)
-            { _a = Min; }
-            else if (_a > Max)
-            { _a = Max; }
-
+            if (useNormalizedScale )
+            {
+                _r = NormalizedScale(R);
+                _g = NormalizedScale(G);
+                _b = NormalizedScale(B);
+                _a = NormalizedScale(A);
+            }
+            else
+            {
+                _r = Ranged(R);
+                _g = Ranged(G);
+                _b = Ranged(B);
+                _a = Ranged(A);
+            }
         }
 
 
@@ -80,46 +85,109 @@ namespace StructureSample
             }
             private set
             {
-                _r = value;
+                _r = value ;
             }
         }
 
+        public float G
+        {
+            get
+            {
+                return _g;
+            }
+            private set
+            {
+                _g = value;
+            }
+        }
+
+        public float B
+        {
+            get
+            {
+                return _b;
+            }
+            private set
+            {
+                _b = value;
+            }
+        }
+
+        public float A
+        {
+            get
+            {
+                return _a;
+            }
+            private set
+            {
+                _a = value;
+            }
+        }
+
+        // 색상 설정 
+        //(질문) 필드(=)가 아니라 프로퍼티(=>)를 사용하는 이유는 옵션에서 255f로 나눠주기 위함
+        /* public static Color White
+         * {
+         *  get {return new Color(Max, Max, Max, Max)}
+         * }
+         */
+        public static RGBA White => new RGBA(Max, Max, Max, Max);
+
+        public static RGBA Black => new RGBA(Min, Min, Min, Max);
+
+        public static RGBA Blue => new RGBA(Min, Min, Max, Max);
+
+        public static RGBA Red => new RGBA(Max, Min, Min, Max);
+
+        public static RGBA Gree => new RGBA(Min, Max, Min, Max);
+        
 
         // 메서드
+        // 색상 값을 0 ~ 255f로 제한
+        public static float Ranged(float colorValue)
+        {
+            if (colorValue < Min)
+            {
+                colorValue = Min;
+            }
+            else if (colorValue > Max)
+            {
+                colorValue = Max;
+            }
+            return colorValue;
+        }
 
-
-
-        // 색상 설정
-        public static Color White => new Color(Max, Max, Max, Max);
-
-        public static Color Black => new Color(Min, Min, Min, Max);
-
-        public static Color Blue => new Color(Min, Min, Max, Max);
-
-        public static Color Red => new Color(Max, Min, Min, Max);
-
-        public static Color Green => new Color(Min, Max, Min, Max);
+        // 정규화 옵션 활성시 0 ~ 1f로 제한
+        public static float NormalizedScale(float scale)
+        {
+            if(useNormalizedScale)
+            {
+                return scale / 255f;
+            }
+            return scale;
+        }
 
 
         // 연산자
         // 비교 연산자
-        public static bool operator == (Color co1, Color co2)
+        public static bool operator == (RGBA co1, RGBA co2)
             => (co1._r == co2._r) && (co1._g == co2._g) && (co1._b == co2._b) && (co1._a == co2._a);
 
-        public static bool operator != (Color co1, Color co2)
+        public static bool operator != (RGBA co1, RGBA co2)
             => !(co1 == co2);
 
         // 실수와 나누기, 곱하기 연산자
-        public static Color operator /(Color co1, float co2)
-            => new Color(co1._r / co2, co1._g / co2, co1._b / co2, co1._a / co2);
-        public static Color operator *(Color co1, float co2)
-            => new Color(co1._r * co2, co1._g * co2, co1._b * co2, co1._a * co2);
+        public static RGBA operator /(RGBA co1, float co2)
+            => new RGBA(co1._r / co2, co1._g / co2, co1._b / co2, co1._a / co2);
+        public static RGBA operator *(RGBA co1, float co2)
+            => new RGBA(co1._r * co2, co1._g * co2, co1._b * co2, co1._a * co2);
 
         // 컬러끼리 더하기, 빼기 연산자
-        public static Color operator +(Color co1, Color co2)
-            => new Color(co1._r + co2._r, co1._g + co2._g, co1._b + co2._b, co1._a + co2._a);
+        public static RGBA operator +(RGBA co1, RGBA co2)
+            => new RGBA(co1._r + co2._r, co1._g + co2._g, co1._b + co2._b, co1._a + co2._a);
 
-        public static Color operator -(Color co1, Color co2)
-            => new Color(co1._r - co2._r, co1._g - co2._g, co1._b - co2._b, co1._a - co2._a);
+        public static RGBA operator -(RGBA co1, RGBA co2)
+            => new RGBA(co1._r - co2._r, co1._g - co2._g, co1._b - co2._b, co1._a - co2._a);
     }
 }
