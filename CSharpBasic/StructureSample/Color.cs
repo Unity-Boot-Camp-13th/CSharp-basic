@@ -17,9 +17,9 @@ namespace StructureSample
     /// </summary>
     struct Color
     {
-        // public 프로퍼티는 PASCAL_CASE
+        // public 프로퍼티는 PascalCase
         // private 변수이름 _camelCase
-        // 함수이름 PASCAL_CASE
+        // 함수이름 PascalCase
         // 지역변수 (및 파라미터) 이름 camelCase
         // 상수 이름 UPPER_SNAKE_CASE
 
@@ -34,61 +34,92 @@ namespace StructureSample
         // 섹터 간에 두 라인 띄움
 
 
-        public Color(float red, float green, float blue, float alpha)
+        float _r, _g, _b, _a;
+
+        // 최소값, 최대값 설정
+        public static float Min = 0f;
+        public static float Max = 255f;
+
+        // 생성자
+        public Color(float R, float G, float B, float A)
         {
-            _red = red;
-            _green = green;
-            _blue = blue;
-            _alpha = alpha;
+            _r = R;
+            _g = G;
+            _b = B;
+            _a = A;
+
+            if (_r < Min)
+            { _r = Min; }
+            else if (_r > Max)
+            { _r = Max; }
+
+            else if (_g < Min)
+            { _g = Min; }
+            else if (_g > Max)
+            { _g = Max; }
+
+            else if (_b < Min)
+            { _b = Min; }
+            else if (_b > Max)
+            { _b = Max; }
+
+            else if (_a < Min)
+            { _a = Min; }
+            else if (_a > Max)
+            { _a = Max; }
+
         }
 
-        float _red, _green, _blue, _alpha;
 
-        public Color()
+        // 프로퍼티
+        public float R
         {
-
+            get
+            {
+                return _r;
+            }
+            private set
+            {
+                _r = value;
+            }
         }
+
+
+        // 메서드
+
 
 
         // 색상 설정
-        public static Color Minimum => new Color(0f, 0f, 0f, 0f);
+        public static Color White => new Color(Max, Max, Max, Max);
 
-        public static Color Max => new Color(255f, 255f, 255f, 255f);
+        public static Color Black => new Color(Min, Min, Min, Max);
 
-        public static Color White => new Color(255f, 255f, 255f, 255f);
+        public static Color Blue => new Color(Min, Min, Max, Max);
 
-        public static Color Black => new Color(0f, 0f, 0f, 255f);
+        public static Color Red => new Color(Max, Min, Min, Max);
 
-        public static Color Blue => new Color(0f, 0f, 255f, 255f);
-
-        public static Color Red => new Color(255f, 0f, 0f, 255f);
-
-        public static Color Green => new Color(0f, 255f, 0f, 255f);
-
-        public float Magnitude => (float)Math.Sqrt(_red * _red + _green * _green + _blue * _blue + _alpha * _alpha);
+        public static Color Green => new Color(Min, Max, Min, Max);
 
 
+        // 연산자
         // 비교 연산자
         public static bool operator == (Color co1, Color co2)
-            => (co1._red == co2._red) && (co1._green == co2._green) && (co1._blue == co2._blue) && (co1._alpha == co2._alpha);
+            => (co1._r == co2._r) && (co1._g == co2._g) && (co1._b == co2._b) && (co1._a == co2._a);
 
         public static bool operator != (Color co1, Color co2)
             => !(co1 == co2);
 
         // 실수와 나누기, 곱하기 연산자
         public static Color operator /(Color co1, float co2)
-            => new Color(co1._red / co2, co1._green / co2, co1._blue / co2, co1._alpha / co2);
+            => new Color(co1._r / co2, co1._g / co2, co1._b / co2, co1._a / co2);
         public static Color operator *(Color co1, float co2)
-            => new Color(co1._red * co2, co1._green * co2, co1._blue * co2, co1._alpha * co2);
+            => new Color(co1._r * co2, co1._g * co2, co1._b * co2, co1._a * co2);
 
         // 컬러끼리 더하기, 빼기 연산자
         public static Color operator +(Color co1, Color co2)
-            => new Color(co1._red + co2._red, co1._green + co2._green, co1._blue + co2._blue, co1._alpha + co2._alpha);
+            => new Color(co1._r + co2._r, co1._g + co2._g, co1._b + co2._b, co1._a + co2._a);
 
         public static Color operator -(Color co1, Color co2)
-            => new Color(co1._red - co2._red, co1._green - co2._green, co1._blue - co2._blue, co1._alpha - co2._alpha);
-
-
-
+            => new Color(co1._r - co2._r, co1._g - co2._g, co1._b - co2._b, co1._a - co2._a);
     }
 }
