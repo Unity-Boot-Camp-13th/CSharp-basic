@@ -48,8 +48,15 @@
 
         public static Vector3 One => new Vector3(1f, 1f, 1f);
 
+        /// <summary>
+        /// 벡터의 크기 (원점으로부터의 거리)
+        /// </summary>
         public float Magnitude => (float)Math.Sqrt( _x * _x + _y * _y + _z * _z );
 
+        /// <summary>
+        /// 정규화된 벡터 (크기를 1로)
+        /// </summary>
+        public Vector3 Normalized => new Vector3(_x, _y, _z) / Magnitude;
 
         // 프로퍼티 (언더바 안 붙음)
         // getter와 setter를 간편하게 구현할 수 있는 기능 (캡슐화 용도)

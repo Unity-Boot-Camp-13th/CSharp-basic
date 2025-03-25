@@ -1,36 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _9.ClassSample
-{   
+﻿namespace _9.ClassSample
+{
     // 구조체는 값을 어느정도 포기하였음
 
-    class Pigeon
+    class Pigeon : Bird
     {
-        public Pigeon(string name)
-        {
-            _name = name;
-        }
-        public Pigeon()
+        public Pigeon(string name) : base(name)
         {
         }
-        public int AverageLifespan => _averageLifespan;
-        public string Name => _name;
 
-        int _averageLifespan;
-        string _name;
+        public override int AverageLifespan => 15;
 
-        public void Fly()
+        private string _feature = "평화의 상징";
+        public override void Fly()
         {
-            Console.WriteLine("비둘기, 날다");
+            Console.WriteLine($"{_name}(비둘기), 날다");
         }
 
-        public void Walk()
+        public override void Walk()
         {
-            Console.WriteLine("비둘기, 걷다");
+            Console.WriteLine($"{_name}(비둘기), 걷다");
+        }
+
+        public override void PrintName()
+        {
+            base.PrintName();
+            Console.WriteLine("구구구...");
         }
     }
 }
