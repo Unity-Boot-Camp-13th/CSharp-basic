@@ -8,6 +8,10 @@ namespace PracticeOOP
 {
     class Warrior : PC
     {
+        public Warrior(string name, int hpMax, int attackForce) : base(name, hpMax, attackForce)
+        {
+        }
+
         public void Smash()
         { 
         }

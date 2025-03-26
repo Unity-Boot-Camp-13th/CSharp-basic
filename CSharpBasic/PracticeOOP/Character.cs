@@ -6,13 +6,24 @@ using System.Threading.Tasks;
 
 namespace PracticeOOP
 {   
-    abstract class Character
+    abstract class Character : GameObject, IDamageable
     {
+        public Character(string name, int hpMax) // 파라미터 2개를 받는 생성자
+        {
+            Name = name;
+            HpMax = hpMax;
+        }
+
         public string Name { get; private set; }
 
-        public int hpMax { get; }
+        public int HpMax { get; private set; }
 
-        public int hp { get; set; }
+        public int Hp { get; protected set; }
+
+        public virtual void Damage(IAttacker attacker, int amount)
+        {
+            Hp -= amount;
+        }
     }
 
 }

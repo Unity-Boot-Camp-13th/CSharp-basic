@@ -15,16 +15,25 @@ namespace PracticeOOP
     }
 
 
-    abstract class PC : Character
+    abstract class PC : Character, IAttacker
     {
-        public void Attack()
+        // base 생성자 오버로드가 파라미터를 가진다면, 자식클래스는 생성자 오버로드를 정의하여 
+        // base 생성자의 파라미터에 인수를 전달하여야 한다.
+        public PC(string name, int hpMax, int attackForce) 
+            : base(name, hpMax)
         {
+            AttackForce = attackForce;
+        }
 
+        public CharacterClass CurrentClass { get; private set; }
+
+        public int AttackForce { get; private set; }
+
+        public void Attack(IDamageable target)
+        {
+            target.Damage(this, AttackForce);
         }
     }
-
-
-    
 }
 
     

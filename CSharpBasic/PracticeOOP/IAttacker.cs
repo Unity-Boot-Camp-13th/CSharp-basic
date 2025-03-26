@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PracticeOOP
 {
-    abstract class Enemy : NPC
+    interface IAttacker
     {
-        protected Enemy(string name, int hpMax) : base(name, hpMax)
-        {
-        }
+        int AttackForce {  get; }
+
+        void Attack(IDamageable target);
     }
 }

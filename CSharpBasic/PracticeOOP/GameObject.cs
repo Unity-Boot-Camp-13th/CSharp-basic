@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace PracticeOOP
 {
-    abstract class Enemy : NPC
+    abstract class GameObject
     {
-        protected Enemy(string name, int hpMax) : base(name, hpMax)
-        {
-        }
     }
 }

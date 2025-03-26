@@ -8,7 +8,9 @@ namespace PracticeOOP
 {
     abstract class NPC : Character
     {
-
+        protected NPC(string name, int hpMax) : base(name, hpMax)
+        {
+        }
     }
 
 }

@@ -9,9 +9,13 @@ namespace PracticeOOP
 {
     class Magician : PC
 {
-    public void Fireball()
-    {
+        public Magician(string name, int hpMax, int attackForce) : base(name, hpMax, attackForce)
+        {
+        }
 
-    }
+        public void Fireball()
+        {
+
+        }
 }
 }

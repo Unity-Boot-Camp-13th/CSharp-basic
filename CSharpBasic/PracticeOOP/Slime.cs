@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PracticeOOP;
 
 namespace PracticeOOP
 {
-    abstract class Enemy : NPC
+    class Slime : Enemy
     {
-        protected Enemy(string name, int hpMax) : base(name, hpMax)
+        public Slime(string name, int hpMax) : base(name, hpMax)
         {
         }
     }
