@@ -84,7 +84,6 @@ namespace ArraySample
             // 2 : 도착지점
             // 3 : 플레이어
 
-
             int[,] map = new int[6, 5] // 0차원이 y축, 1차원이 x축
             {
                 { 0, 0, 0, 0, 1},
@@ -156,10 +155,13 @@ namespace ArraySample
             // 이동대상 위치가 맵의 경계를 벗어나는지
             if (targetY < 0)
                 return false;
+
             if (targetY >= map.GetLength(0))
                 return false;
+
             if (targetX < 0)
                 return false;
+
             if (targetX >= map.GetLength(1))
                 return false;
 
@@ -176,6 +178,7 @@ namespace ArraySample
 
         static void DisplayMap(int[,] map)
         {
+            Console.Clear();
 
             // y 축 순회
             for (int i = 0; i < map.GetLength(0); i++)
