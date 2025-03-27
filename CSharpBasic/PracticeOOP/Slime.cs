@@ -12,5 +12,9 @@ namespace PracticeOOP
         public Slime(string name, int hpMax) : base(name, hpMax)
         {
         }
+
+        public override char Symbol => '♠';
+
+        public override ConsoleColor SymbolColor => ConsoleColor.DarkGreen;
     }
 }

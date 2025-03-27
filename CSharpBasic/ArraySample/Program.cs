@@ -12,6 +12,8 @@ namespace ArraySample
             // int[] arr = new int[5]; //모든 요소 0 초기화
             // int[] arr = { 3, 4, 2, 7, 1 }; // 요소별 초기값 주고싶을 때
             int[] arr = new int[5] { 3, 4, 2, 7, 1 }; // 몇 개인지 알려주면서 초기값 주고 싶을 때
+            // size, length, count 모두 5
+
 
             // 배열의 인덱서
             // 배열에서 특정 번째 요소에 접근할 수 있도록 하는 기능
@@ -128,6 +130,7 @@ namespace ArraySample
                 }
             }
         }
+
 
         static bool TryMovePlayerPosition(int[,] map, ref int playerX, ref int playerY, ConsoleKey consoleKey)
         {

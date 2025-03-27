@@ -13,6 +13,9 @@ namespace PracticeOOP
         {
         }
 
+        public override char Symbol => '♀';
+
+        public override ConsoleColor SymbolColor => ConsoleColor.DarkMagenta;
         public override void Interaction(PC pc)
         {
             SaySomething();

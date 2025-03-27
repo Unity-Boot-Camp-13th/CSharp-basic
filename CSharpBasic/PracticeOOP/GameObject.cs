@@ -8,5 +8,7 @@ namespace PracticeOOP
 {
     abstract class GameObject
     {
+        public abstract char Symbol { get; }
+        public abstract ConsoleColor SymbolColor { get; }
     }
 }

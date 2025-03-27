@@ -29,6 +29,10 @@ namespace PracticeOOP
             }
         }
 
+        public override char Symbol => '▤';
+
+        public override ConsoleColor SymbolColor => ConsoleColor.DarkYellow;
+
         private int _hp;
 
         public void Damage(IAttacker attacker, int amount)

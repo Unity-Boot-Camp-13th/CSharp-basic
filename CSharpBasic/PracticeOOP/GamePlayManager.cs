@@ -9,6 +9,8 @@ namespace PracticeOOP
     class GamePlayManager
     {
         private Map _map;
+        private PC _player;
+        private Coord _playerCoord; // <= 플레이어 좌표 저장해놓고 활용해도 됨
 
         public void PlayGame()
         {
@@ -19,61 +21,142 @@ namespace PracticeOOP
         private void InitializeLevel()
         {
             CreateMap();
-            SpawnNPCs();
-            SpawnPlayer();
+            SpawnGameObjects();
         }
 
         private void CreateMap()
         {
-            _map = Map.CreateDefault(20, 20);
-            _map.Display();
+            _map = Map.CreateDefault(20, 20); // 맵을 기본 값으로 생성
+            // 현재 데이터대로 화면에 출력
         }
 
-        private void SpawnNPCs()
+        private void SpawnGameObjects()
         {
             MapTile mapTile; // 지역 변수 -> 따라서 SpawnNPCs() 함수가 끝나면 stack에서 사라짐
             GameObject spawnedObject; // 지역 변수
+            Coord[] coords = _map.GetShuffledEmptyCoords();
+            int coordIndex = 0;
 
-            // new 키워드 배열 만들면 Heap에 저장 -> Heap 에 있는 것이 우리가 보는 실제 맵
+            // 이장님 소환 및 배치
+            spawnedObject = new TownNPC_VillageChief("마을 이장", int.MaxValue);
+            mapTile = _map.GetTile(coords[coordIndex]);
+            mapTile.GameObject = spawnedObject;
+            _map.SetTile(mapTile);
+            coordIndex++;
 
-            // 촌장님 소환
-            if (_map.TryGetEmptyRandomMapTile(out mapTile)) // out : 변수 참조 키워드
+
+            // 슬라임 10마리 생성
+            for (int i = 0; i < 10; i++)
             {
-                spawnedObject = new TownNPC_VillageChief("마을 이장", int.MaxValue); 
-                // spawnedObject는 주소를 저장하기 위한 곳 / new TownNPC는 힙에 저장됨. 이것의 주소가 spawned..에 저장
-                // mapTile.GameObject = spawnedObject -> 이건 안 됨. 왜냐하면 값만 복사해서 stack에 저장되기 때문
-
-                _map.TrySetGameObject(mapTile.Coord.X, mapTile.Coord.Y, spawnedObject);
+                spawnedObject = new Slime("슬라임", 50);
+                mapTile = _map.GetTile(coords[coordIndex]);
+                mapTile.GameObject = spawnedObject;
+                _map.SetTile(mapTile);
+                coordIndex++;
             }
-        }
 
-        private void SpawnPlayer()
-        {
+            // 버섯 5마리 생성
+            for (int i = 0; i < 5; i++)
+            {
+                spawnedObject = new Mushroom("버섯", 100, 5);
+                mapTile = _map.GetTile(coords[coordIndex]);
+                mapTile.GameObject = spawnedObject;
+                _map.SetTile(mapTile);
 
+                coordIndex++;
+            }
+
+            // 플레이어 캐릭터 생성 (전사)
+            spawnedObject = _player = new Warrior("스타전사", 200, 20);
+            mapTile = _map.GetTile(coords[coordIndex]);
+            mapTile.GameObject = spawnedObject;
+            _map.SetTile(mapTile);
+            _playerCoord = mapTile.Coord;
+            coordIndex++;
         }
 
         // gameworkflow : 작업 흐름
         private void GameWorkflow() 
         {
-            return;
-
             while(IsGameOver() == false &&
                   IsGameClear() == false)
             {
-
+                Console.Clear();
+                Console.WriteLine(_playerCoord.X);
+                _map.Display();
+                HandleInput();
             }
         }
 
         private bool IsGameOver()
         {
-            // TODO : 플레이어 체력이 0 이하인지
-            return false;
+            return _player.Hp <= 0;
         }
 
         private bool IsGameClear()
         {
             // TODO : 소환된 적이 더이상 남아있지 않은지
             return false;
+        }
+
+        private void HandleInput()
+        {
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
+            ConsoleKey key = keyInfo.Key;
+
+            // TODO -> 방향키로 플레이어 이동
+            // (경계를 벗어나거나, 타일 위에 다른 GameObject가 있으면 이동 불가)
+
+            // Hint. IsValid 두 개 만들기
+            // & key 입력 방향으로 이동하려할 때 해당위치가 유효한지, 비어있는지 확인해서 플레이어를 다른 타일로 옮김
+
+            int playerX = _playerCoord.X;
+            int playerY = _playerCoord.Y;
+            
+            
+            // 플레이어 이동
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    playerY -= 1;
+                    break;
+                case ConsoleKey.DownArrow:
+                    playerY += 1;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    playerX -= 1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    playerX += 1;
+                    break;
+                default:
+                    break;
+            }
+
+            
+            // 이동 후 플레이어 좌표 값
+            Coord nextCoord = new Coord(playerX, playerY);
+
+
+            // 이동 가능한지 확인
+            if (_map.IsValid(nextCoord) && _map.GetTile(nextCoord).GameObject == null)
+            {
+                // 1. 현재 위치 비우기
+                MapTile currentTile = _map.GetTile(_playerCoord);
+                currentTile.GameObject = null;
+                _map.SetTile(currentTile);
+
+                // 2. 새로운 위치에 플레이어 배치
+                MapTile nextTile = _map.GetTile(nextCoord);
+                nextTile.GameObject = _player;
+                _map.SetTile(nextTile);
+
+                // 3. 플레이어 좌표 갱신
+                _playerCoord = nextCoord;
+            }
+            else
+                return;
+
         }
 
     }

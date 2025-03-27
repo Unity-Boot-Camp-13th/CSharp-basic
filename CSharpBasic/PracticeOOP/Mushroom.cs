@@ -16,6 +16,9 @@ namespace PracticeOOP
 
         public int AttackForce { get; private set; }
 
+        public override char Symbol => '♣';
+        public override ConsoleColor SymbolColor => ConsoleColor.Red;
+
         public void Attack(IDamageable target)
         {
             target.Damage(this, AttackForce);

@@ -12,6 +12,10 @@ namespace PracticeOOP
         {
         }
 
+        public override char Symbol => 'ⓦ';
+
+        public override ConsoleColor SymbolColor => ConsoleColor.DarkRed;
+
         public void Smash()
         { 
         }
