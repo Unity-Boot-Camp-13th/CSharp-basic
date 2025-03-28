@@ -10,7 +10,6 @@
             Console.ReadKey();
             Console.Clear();
 
-
             gamePlayManager.PlayGame();
         }
     }
