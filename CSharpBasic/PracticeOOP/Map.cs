@@ -100,30 +100,23 @@ namespace PracticeOOP
         /// <returns> ture : 유효함, false : 유효하지 않음 </returns>
         public bool IsValid(int x, int y)
         {
-            if (y < 0)
+            // x나 y가 2차원 배열 인덱스 범위를 벗어날 때
+            if (x < 0 || x >= _tiles.GetLength(1) ||
+                y < 0 || y >= _tiles.GetLength(0))
+            {
                 return false;
-            if (y >= _tiles.GetLength(0))
-                return false;
-            if (x < 0)
-                return false;
-            if (x >= _tiles.GetLength(1))
-                return false;
-            else
-                return true;
+            }
+            return true;
         }
 
         public bool IsValid(Coord coord)
         {
-            if (coord.Y < 0)
+            if (coord.X < 0 || coord.X >= _tiles.GetLength(1) ||
+                coord.Y < 0 || coord.Y >= _tiles.GetLength(0))
+            {
                 return false;
-            if (coord.Y >= _tiles.GetLength(0))
-                return false;
-            if (coord.X < 0)
-                return false;
-            if (coord.X >= _tiles.GetLength(1))
-                return false;
-            else
-                return true;
+            }
+            return true;
         }
 
         /// <summary>

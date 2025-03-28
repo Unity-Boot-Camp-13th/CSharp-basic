@@ -213,7 +213,7 @@ namespace ArraySample
                             break;
                         case 3:
                             Console.Write("♀ ");
-                                break;
+                            break;
                         default:
                             throw new Exception("잘못된 값입니다...");
                     }

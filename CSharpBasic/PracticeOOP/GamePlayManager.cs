@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace PracticeOOP
             MapTile mapTile; // 지역 변수 -> 따라서 SpawnNPCs() 함수가 끝나면 stack에서 사라짐
             GameObject spawnedObject; // 지역 변수
             Coord[] coords = _map.GetShuffledEmptyCoords();
-            int coordIndex = 0;
+            int coordIndex = 0; // 순차적으로 빈 타일을 검색하기 위한 인덱스 (iteration)
 
             // 이장님 소환 및 배치
             spawnedObject = new TownNPC_VillageChief("마을 이장", int.MaxValue);
@@ -82,7 +83,6 @@ namespace PracticeOOP
                   IsGameClear() == false)
             {
                 Console.Clear();
-                Console.WriteLine(_playerCoord.X);
                 _map.Display();
                 HandleInput();
             }
@@ -107,9 +107,6 @@ namespace PracticeOOP
             // TODO -> 방향키로 플레이어 이동
             // (경계를 벗어나거나, 타일 위에 다른 GameObject가 있으면 이동 불가)
 
-            // Hint. IsValid 두 개 만들기
-            // & key 입력 방향으로 이동하려할 때 해당위치가 유효한지, 비어있는지 확인해서 플레이어를 다른 타일로 옮김
-
             int playerX = _playerCoord.X;
             int playerY = _playerCoord.Y;
             
@@ -132,14 +129,14 @@ namespace PracticeOOP
                 default:
                     break;
             }
+                 
 
-            
             // 이동 후 플레이어 좌표 값
             Coord nextCoord = new Coord(playerX, playerY);
 
 
             // 이동 가능한지 확인
-            if (_map.IsValid(nextCoord) && _map.GetTile(nextCoord).GameObject == null)
+            if (_map.IsValid(nextCoord) && _map.IsEmpty(nextCoord))
             {
                 // 1. 현재 위치 비우기
                 MapTile currentTile = _map.GetTile(_playerCoord);
@@ -157,7 +154,42 @@ namespace PracticeOOP
             else
                 return;
 
+            // 강사님의 방향키 코드
+            // Coord direction = default;
+            // 
+            // switch (key)
+            // {
+            //     case ConsoleKey.UpArrow:
+            //         direction = Coord.Up;
+            //         break;
+            //     case ConsoleKey.DownArrow:
+            //         direction = Coord.Down;
+            //         break;
+            //     case ConsoleKey.LeftArrow:
+            //         direction = Coord.Left;
+            //         break;
+            //     case ConsoleKey.RightArrow:
+            //         direction = Coord.Right;
+            //         break;
+            //     default:
+            //         break;
+            // }
+            // 
+            // Coord targetCoord = _playerCoord + direction;
+            // 
+            // if (_map.IsValid(targetCoord) &&
+            //     _map.IsEmpty(targetCoord))
+            // {
+            //     MapTile origin = _map.GetTile(_playerCoord);
+            //     origin.GameObject = null;
+            //     _map.SetTile(origin);
+            // 
+            //     MapTile target = _map.GetTile(targetCoord);
+            //     target.GameObject = _player;
+            //     _map.SetTile(target);
+            // 
+            //     _playerCoord = targetCoord;
+            // }
         }
-
     }
 }
