@@ -84,6 +84,103 @@ namespace CollectionsSample
             {
                 Console.WriteLine(item);
             }
+
+            // List - C# 의 제네릭 동적배열
+            //-------------------------------------------------------------
+            List<int> list = new List<int>();
+            list.Add(1);
+            list.Add(4);
+            list.Add(2);
+            list.RemoveAt(2);
+
+            foreach (int item in list)
+            {
+
+            }
+
+            // ArrayList - C# 의 논-제네릭(object 기반) 동적배열 
+            //-------------------------------------------------------------
+            ArrayList arrayList = new ArrayList();
+            arrayList.Add("Hi");
+            arrayList.Add(3.5f);
+            arrayList.Add('a');
+
+            IEnumerator<int> countRoutineEnumerator = new CountRoutineEnumerator();
+
+            while (countRoutineEnumerator.MoveNext())
+            {
+                Console.Write($"{countRoutineEnumerator.Current}");
+            }
+
+            IEnumerator<int> countRoutioneEnumerator2 = CountRoutine();
+
+            while (countRoutioneEnumerator2.MoveNext())
+            {
+                Console.Write($"{countRoutioneEnumerator2.Current}");
+            }
+
+            IEnumerator dummyEnumerator = DummyRoutinable().GetEnumerator();
+
+            while (dummyEnumerator.MoveNext())
+            {
+                Console.WriteLine($"{dummyEnumerator.Current}");
+            }
+
+            foreach (object item in DummyRoutinable())
+            {
+
+            }
+        }
+
+        static IEnumerator<int> CountRoutine()
+        {
+            yield return 1; // yield 키워드 : IEnumerable 혹은 IEnumerator 의  MoveNext 구현을 작성할 때 사용
+            yield return 2;
+            yield return 3;
+            // yield break;
+        }
+
+        static IEnumerable DummyRoutinable()
+        {
+            yield return "Luke"; // yield 키워드 : IEnumerable 혹은 IEnumerator 의  MoveNext 구현을 작성할 때 사용
+            yield return 3.5f;
+            yield return 'A';
+            // yield break;
+        }
+
+        class CountRoutineEnumerator : IEnumerator<int>
+        {
+            public int Current => throw new NotImplementedException();
+
+            object IEnumerator.Current => Current;
+            int _index;
+            int _current;
+
+
+            public bool MoveNext()
+            {
+                if (_index == 0)
+                    _current = 1;
+                else if (_index == 1)
+                    _current = 2;
+                else if (_index == 2)
+                    _current = 3;
+                else
+                    return false;
+
+                _index++;
+                return true;
+            }
+
+            public void Reset()
+            {
+                _index = 0;
+                _current = default(int);
+            }
+
+            public void Dispose()
+            {
+            }
         }
     }
 }
