@@ -2,29 +2,11 @@
 
 namespace CollectionsSample
 {
-    class DynamicArray<T> : IEnumerable<T>
+    class MyStack_1<T> : IEnumerable<T>
     {
-        public DynamicArray(int capacity)
+        public MyStack_1(int capacity)
         {
             _data = new T[capacity];
-        }
-
-        public T this[int index]
-        {
-            get
-            {
-                if (index >= _count || index < 0)
-                    throw new IndexOutOfRangeException();
-
-                return _data[index];
-            }
-            set
-            {
-                if (index >= _count || index < 0)
-                    throw new IndexOutOfRangeException();
-
-                _data[index] = value;
-            }
         }
 
         public int Count => _count;
@@ -51,8 +33,7 @@ namespace CollectionsSample
         private T[] _data;
         private int _count;
 
-
-        public void Add(T item)
+        public void Push(T item)
         {
             // 용량이 부족할때
             if (_count == _data.Length)
@@ -71,75 +52,23 @@ namespace CollectionsSample
             _data[_count++] = item;
         }
 
-        /// <summary>
-        /// index 의 아이템 삭제를 위해 이후 아이템들을 모두 한칸씩 앞으로 당김
-        /// </summary>
-        /// <param name="index"> 삭제하려는 아이템 위치 </param>
-        /// <exception cref="IndexOutOfRangeException"> 인덱스 범위 초과 </exception>
-        public void RemoveAt(int index)
+        public T Pop()
         {
-            if (index >= _count || index < 0)
+            if (_count == 0)
                 throw new IndexOutOfRangeException();
 
-            for (int i = index; i < _count - 1; i++)
-            {
-                _data[i] = _data[i + 1];
-            }
-
             _count--;
+            T item = _data[_count];
+            _data[_count] = default;
+            return item;
         }
 
-
-        public int FindIndex(Predicate<T> match)
+        public T Peek()
         {
-            for (int i = 0; i < _count; i++)
-            {
-                if (match(_data[i]))
-                {
-                    return i;
-                }
-            }
+            if (_count == 0)
+                throw new IndexOutOfRangeException ();
 
-            return -1;
-        }
-
-        public int FindLastIndex(Predicate<T> match)
-        {
-            for (int i = _count - 1; i >= 0; i--)
-            {
-                if (match(_data[i]))
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
-
-        // remove랑 removelast는 삭제 알고리즘이 아닌 탐색 알고리즘임
-        // 탐색해서 삭제를 찾는 것임
-
-        public bool Remove(Predicate<T> match)
-        {
-            int index = FindIndex(match);
-
-            if (index < 0)
-                return false;
-
-            RemoveAt(index);
-            return true;
-        }
-
-        public bool RemoveLast(Predicate<T> match)
-        {
-            int index = FindLastIndex(match);
-
-            if (index < 0)
-                return false;
-
-            RemoveAt(index);
-            return true;
+            return _data[_count - 1];
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -154,7 +83,7 @@ namespace CollectionsSample
 
         struct Enumerator : IEnumerator<T>
         {
-            public Enumerator(DynamicArray<T> list)
+            public Enumerator(MyStack_1<T> list)
             {
                 _list = list;
                 _index = 0;
@@ -165,16 +94,16 @@ namespace CollectionsSample
 
             object IEnumerator.Current => Current;
 
-            DynamicArray<T> _list;
+            MyStack_1<T> _list;
             int _index;
             T _current;
-            
+
 
             public bool MoveNext()
             {
                 if (_index < _list.Count)
                 {
-                    _current = _list[_index];
+                    _current = _list._data[_index];
                     _index++;
                     return true;
                 }

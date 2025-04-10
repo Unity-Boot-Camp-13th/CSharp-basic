@@ -112,11 +112,11 @@ namespace CollectionsSample
                 Console.Write($"{countRoutineEnumerator.Current}");
             }
 
-            IEnumerator<int> countRoutioneEnumerator2 = CountRoutine();
+            IEnumerator<int> countRoutineEnumerator2 = CountRoutine();
 
-            while (countRoutioneEnumerator2.MoveNext())
+            while (countRoutineEnumerator2.MoveNext())
             {
-                Console.Write($"{countRoutioneEnumerator2.Current}");
+                Console.Write($"{countRoutineEnumerator2.Current}");
             }
 
             IEnumerator dummyEnumerator = DummyRoutinable().GetEnumerator();
@@ -130,6 +130,23 @@ namespace CollectionsSample
             {
 
             }
+
+            // Stack
+            // -----------------------------------------
+            MyStack_1<int> myStack = new MyStack_1<int>(5);
+            myStack.Push(1);
+            myStack.Push(4);
+            myStack.Push(1);
+            myStack.Pop();
+            myStack.Push(5);
+            Console.WriteLine(myStack.Peek());
+
+            Stack<int> stack = new Stack<int>(6);
+            stack.Push(1);
+            stack.Push(4);
+            stack.Push(1);
+            stack.Pop();
+            Console.WriteLine(stack.Peek());
         }
 
         static IEnumerator<int> CountRoutine()
@@ -150,7 +167,7 @@ namespace CollectionsSample
 
         class CountRoutineEnumerator : IEnumerator<int>
         {
-            public int Current => throw new NotImplementedException();
+            public int Current => _current;
 
             object IEnumerator.Current => Current;
             int _index;

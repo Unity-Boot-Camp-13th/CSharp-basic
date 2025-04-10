@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12.DelegateSample", "Delega
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14.CollectionsSample", "CollectionsSample\14.CollectionsSample.csproj", "{D6D977DA-0B0B-4090-A13A-DFF3A3C92BAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15. PathfinderSample", "PathfinderSample\15. PathfinderSample.csproj", "{17E49CA5-5359-4360-B6CE-273BD3CD7FDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{D6D977DA-0B0B-4090-A13A-DFF3A3C92BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6D977DA-0B0B-4090-A13A-DFF3A3C92BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6D977DA-0B0B-4090-A13A-DFF3A3C92BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17E49CA5-5359-4360-B6CE-273BD3CD7FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E49CA5-5359-4360-B6CE-273BD3CD7FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17E49CA5-5359-4360-B6CE-273BD3CD7FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17E49CA5-5359-4360-B6CE-273BD3CD7FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
