@@ -2,9 +2,9 @@
 
 namespace CollectionsSample
 {
-    class MyStack_1<T> : IEnumerable<T>
+    class MyStack<T> : IEnumerable<T>
     {
-        public MyStack_1(int capacity)
+        public MyStack(int capacity)
         {
             _data = new T[capacity];
         }
@@ -33,7 +33,7 @@ namespace CollectionsSample
         private T[] _data;
         private int _count;
 
-        public void Push(T item)
+        public void Push(T item) // add를 푸시로 용어를 바꿔 사용
         {
             // 용량이 부족할때
             if (_count == _data.Length)
@@ -83,7 +83,7 @@ namespace CollectionsSample
 
         struct Enumerator : IEnumerator<T>
         {
-            public Enumerator(MyStack_1<T> list)
+            public Enumerator(MyStack<T> list)
             {
                 _list = list;
                 _index = 0;
@@ -94,7 +94,7 @@ namespace CollectionsSample
 
             object IEnumerator.Current => Current;
 
-            MyStack_1<T> _list;
+            MyStack<T> _list;
             int _index;
             T _current;
 

@@ -133,7 +133,7 @@ namespace CollectionsSample
 
             // Stack
             // -----------------------------------------
-            MyStack_1<int> myStack = new MyStack_1<int>(5);
+            MyStack<int> myStack = new MyStack<int>(5);
             myStack.Push(1);
             myStack.Push(4);
             myStack.Push(1);
@@ -147,6 +147,33 @@ namespace CollectionsSample
             stack.Push(1);
             stack.Pop();
             Console.WriteLine(stack.Peek());
+
+            // Queue
+            // ------------------------------
+
+            MyQueue<string> myQueue = new MyQueue<string>(3);
+            myQueue.Enqueue("Luke");
+            myQueue.Enqueue("Carl");
+            myQueue.Enqueue("David");
+            myQueue.Enqueue("Ben");
+            myQueue.Dequeue();
+            myQueue.Enqueue("Tobi");
+            myQueue.Dequeue();
+            myQueue.Enqueue("Shun");
+
+
+            Console.Write("내 대기열 : ");
+            while (myQueue.Count > 0)
+            {
+                Console.Write($"{myQueue.Dequeue()}, ");
+            }
+
+            Queue<string> queue = new Queue<string>(4);
+            queue.Enqueue("Hi");
+            queue.Enqueue("Bye");
+            queue.Dequeue();
+            queue.Peek();
+            Console.WriteLine(queue);
         }
 
         static IEnumerator<int> CountRoutine()
