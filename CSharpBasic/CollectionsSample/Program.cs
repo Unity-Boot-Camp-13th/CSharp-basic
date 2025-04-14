@@ -173,7 +173,29 @@ namespace CollectionsSample
             queue.Enqueue("Bye");
             queue.Dequeue();
             queue.Peek();
-            Console.WriteLine(queue);
+
+            // Linked List
+            // ---------------------------------------------
+
+            MyLinkedList<int> myLinkedList = new MyLinkedList<int>();
+            myLinkedList.AddLast(1);
+            myLinkedList.AddFirst(2);
+            MyLinkedListNode<int> myLinkedListNode = myLinkedList.FindLast(x => x > 0);
+
+            myLinkedList.AddAfter(myLinkedListNode, 4);
+
+            LinkedList<int> linkedList = new LinkedList<int>();
+            linkedList.AddFirst(1);
+
+            foreach (int value in myLinkedList)
+            {
+
+            }
+
+            foreach (int value in linkedList)
+            {
+
+            }
         }
 
         static IEnumerator<int> CountRoutine()
