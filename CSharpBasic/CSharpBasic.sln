@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15. PathfinderSample", "Pat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "13.FractionSample", "13.FractionSample\13.FractionSample.csproj", "{CF1927E0-1E01-4D67-9D17-FA02CE1CE2E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "16. SortAlgorithms", "SortAlgorithms\16. SortAlgorithms.csproj", "{39DCEC51-9E76-464E-B42C-282009D3277B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{CF1927E0-1E01-4D67-9D17-FA02CE1CE2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF1927E0-1E01-4D67-9D17-FA02CE1CE2E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF1927E0-1E01-4D67-9D17-FA02CE1CE2E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39DCEC51-9E76-464E-B42C-282009D3277B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39DCEC51-9E76-464E-B42C-282009D3277B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39DCEC51-9E76-464E-B42C-282009D3277B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39DCEC51-9E76-464E-B42C-282009D3277B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
