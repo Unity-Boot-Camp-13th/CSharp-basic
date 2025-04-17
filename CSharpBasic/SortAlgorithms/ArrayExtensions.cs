@@ -1,4 +1,6 @@
-﻿namespace SortAlgorithms
+﻿using System.ComponentModel.Design;
+
+namespace SortAlgorithms
 {
     static class ArrayExtensions
     {
@@ -31,12 +33,6 @@
             }
         }
 
-        static void Swap(this int[] arr, int index1, int index2)
-        {
-            int tmp = arr[index1];
-            arr[index1] = arr[index2];
-            arr[index2] = tmp;
-        }
 
         /// <summary>
         /// 현재 탐색 중인 인덱스 뒤로 가장 작은 값을 가지는 인덱스를 찾아서 걔랑 스왑
@@ -58,14 +54,19 @@
             }
         }
 
-        public static void InsertSort(this int[] arr)
+        /// <summary>
+        /// 삽입 정렬
+        /// 현재 탐색 중인 인덱스의 값을 key 로 두고 
+        /// 현재 탐색 중인 인덱스보다 앞에 key 값보다 큰 값들이 있다면 전부 오른쪽으로 한 칸씩 밈
+        /// 더 이상 밀 수 없을 때 그 위치에 key 값을 쓴다
+        /// </summary>
+        public static void InsertionSort(this int[] arr)
         {
-            int key = 0;
+            int i, j, key;
 
-            for (int i = 1; i < arr.Length; i++)
+            for (i = 1; i < arr.Length; i++)
             {
                 key = arr[i];
-                int j;
 
                 for (j = i - 1; j >= 0; j--)
                 {
@@ -74,10 +75,171 @@
                         arr[j + 1] = arr[j];
                     }
                     else
+                    {
                         break;
+                    }
                 }
-                arr[j + 1] = key;
+                arr[j + 1] = key; // for 루프 마지막에 j-- 하기 때문에 다시 +1 해서 쓴거임
             }
+        }
+
+        public static void MergeSort(this int[] arr)
+        {
+            int length = arr.Length;
+
+            // 병합 단위
+            for (int mergeSize = 1; mergeSize < length; mergeSize *= 2)
+            {
+                // 병합 범위
+                for (int start = 0; start < length; start += mergeSize * 2)
+                {
+                    // 왼쪽 파티션 : start ~ mergeSize - 1
+                    // 오른쪽 파티션 : start ~ 2 * mergeSize - 1
+                    int mid = Math.Min(start + mergeSize - 1, length - 1);
+                    int end = Math.Min(start + 2 * mergeSize - 1, length - 1);
+
+                    Merge(arr, start, mid, end);
+                }
+            }
+        }
+
+        public static void RecursiveMergeSort(this int[] arr) // 재귀 병합 정렬
+        {
+            RecursiveMergeSort(arr, 0, arr.Length - 1);
+        }
+
+        private static void RecursiveMergeSort(int[] arr, int start, int end)
+        {
+            if (start < end)
+            {
+                // 정수는 반올림이 아니라 버림임
+                int mid = (start + end) / 2; // 코테 : end + (start - end + 1) / 2 - 1
+                RecursiveMergeSort(arr, start, mid); // 이진 트리처럼 나눔 -> 시간 복잡도: logn
+                RecursiveMergeSort(arr, mid + 1, end);
+
+                Merge(arr, start, mid, end);
+            }
+        }
+
+
+        private static void Merge(int[] arr, int start, int mid, int end)
+        {
+            int length1 = mid - start + 1; // start ~ mid (part1 길이)
+            int length2 = end - (mid + 1) + 1; // mid + 1 ~ end (part2 길이)
+            int[] copy1 = new int[length1]; // part1(왼쪽) 카피
+            int[] copy2 = new int[length2]; // part2(오른쪽) 카피
+
+            for (int i = 0; i < length1; i++)
+            {
+                copy1[i] = arr[i + start];
+            }
+            for (int i = 0; i < length2; i++)
+            {
+                copy2[i] = arr[i + mid + 1];
+            }
+
+            int part1 = 0;
+            int part2 = 0;
+            int index = start; // 현재 정렬하려는 위치
+
+            // 두 파트 중 하나라도 다 소진할 때까지 반복
+            while (part1 < length1 && part2 < length2)
+            {
+                if (copy1[part1] <= copy2[part2])
+                {
+                    arr[index++] = copy1[part1++];
+                }
+                else
+                {
+                    arr[index++] = copy2[part2++];
+                }
+            }
+
+            // part1 만 남았다면 index 부터 쭉 이어서 붙여넣는다
+            while (part1 < length1)
+                arr[index++] = copy1[part1++];
+        }
+
+        public static void ReculsiveQuickSort(this int[] arr)
+        {
+            ReculsiveQuickSort(arr, 0, arr.Length - 1);
+        }
+
+        private static void ReculsiveQuickSort(int[] arr, int start, int end)
+        {
+            if (start < end)
+            {
+                int p = QuickSortPartition2(arr, start, end);
+
+                ReculsiveQuickSort(arr, start, p - 1); // 왼쪽 파티션
+                ReculsiveQuickSort(arr, p + 1, end); // 오른쪽 파티션
+            }
+        }
+
+        /// <summary>
+        /// Quick 정렬 로직에서 Pivot 을 선정하여 Pivot 값 기준 정렬을 수행하고
+        /// 고정된 값을 반환해서 상위 함수에서 고정된 인덱스를 기준으로 좌, 우 분할 로직을 수행할 수 있도록 함
+        /// </summary>
+        /// <returns> 이번 정렬에서 고정될 배열의 인덱스 </returns>
+        private static int QuickSortPartition(int[] arr, int start, int end)
+        {
+            int pivot = arr[(start + end) / 2];
+
+            while (true)
+            {
+                while (arr[start] < pivot)
+                {
+                    start++;
+                }
+                while (arr[end] > pivot)
+                {
+                    end--;
+                }
+                if (start < end)
+                {
+                    if (arr[start] == pivot &&
+                        arr[end] == pivot)
+                        end--;
+
+                    else
+                    {
+                        arr.Swap(start, end);
+                    }
+                }
+                else
+                    return end;
+            }
+        }
+
+        private static int QuickSortPartition2(int[] arr, int start, int end)
+        {
+            int mid = start + ((end - start) >> 1); // (end - start) >> 1 = (end - start) / 2
+            int pivot = arr[mid];
+
+            while (true)
+            {
+                while (arr[start] < pivot)
+                    start++;
+                while (arr[end] > pivot)
+                    end--;
+                if (start < end)
+                {
+                    arr.Swap(start, end);
+                    start++;
+                    end--;
+                }
+                else
+                {
+                    return end;
+                }
+            }
+        }
+
+        static void Swap(this int[] arr, int index1, int index2)
+        {
+            int tmp = arr[index1];
+            arr[index1] = arr[index2];
+            arr[index2] = tmp;
         }
     }
 }
