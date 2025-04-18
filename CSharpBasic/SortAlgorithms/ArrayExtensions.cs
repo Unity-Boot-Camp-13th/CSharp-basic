@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Design;
+using System.Data;
 
 namespace SortAlgorithms
 {
@@ -171,7 +172,7 @@ namespace SortAlgorithms
             {
                 int p = QuickSortPartition2(arr, start, end);
 
-                ReculsiveQuickSort(arr, start, p - 1); // 왼쪽 파티션
+                ReculsiveQuickSort(arr, start, p); // 왼쪽 파티션 // quicksortpartition2의 p가 p-1일 가능성도 내포하고 있기 때문에 p로 작성
                 ReculsiveQuickSort(arr, p + 1, end); // 오른쪽 파티션
             }
         }
@@ -231,6 +232,63 @@ namespace SortAlgorithms
                 else
                 {
                     return end;
+                }
+            }
+        }
+
+        public static void HeapSort(this int[] arr)
+        {
+            HeapifyBottomup(arr);
+            InverseHeapify(arr);
+        }
+
+        private static void HeapifyBottomup(int[] arr)
+        {
+            int current = arr.Length - 1;
+
+            while(current >= 0)
+            {
+                SIFTDown(arr, current--, arr.Length - 1);
+            }
+        }
+
+        private static void InverseHeapify(int[] arr)
+        {
+            int end = arr.Length - 1;
+            while (end > 0)
+            {
+                arr.Swap(0, end--);
+                SIFTDown(arr, 0, end);
+            }
+        }
+
+        private static void SIFTDown(int[] arr, int current, int end)
+        {
+            int leftChild = current * 2 + 1;
+
+            // 더이상 아래로 스왑이 불가능할 때까지 반복
+            while (leftChild <= end)
+            {
+                int rightChild = leftChild + 1;
+                int priorityChild = leftChild;
+
+                // 오른쪽 자식이 있으면서, 오른쪽 자식이 왼쪽보다 크면 우선순위 바꿈 
+                if (rightChild <= end &&
+                    arr[rightChild] > arr[leftChild])
+                {
+                    priorityChild = rightChild;
+                }
+
+                // 자식의 우선순위가 더 높은지 확인 후 스왑
+                if (arr[current] < arr[priorityChild])
+                {
+                    arr.Swap(current, priorityChild);
+                    current = priorityChild;
+                    leftChild = current * 2 + 1;
+                }
+                else
+                {
+                    break;
                 }
             }
         }
